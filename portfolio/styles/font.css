@@ -1,0 +1,9 @@
+/* styles/font.css */
+@font-face {
+    font-family: 'Custom Sans Serif';
+    src: url('/path/to/your/font.woff2') format('woff2'),
+         url('/path/to/your/font.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    /* Additional font properties (e.g., font-weight, font-style) can be defined here */
+}
