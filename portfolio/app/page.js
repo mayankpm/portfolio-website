@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <>
-      <Sidenav/>
+      {/* <Sidenav/> */}
       <h1 className="about-text-container font-bold">
         <Hero/>
       </h1>
