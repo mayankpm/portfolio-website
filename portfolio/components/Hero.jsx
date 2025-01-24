@@ -26,7 +26,10 @@ export default function Hero() {
     'optimization',
     'backend',
     'development',
-    'mathematical'
+    'mathematical',
+    'API',
+    'data sciences',
+    'cloud'
   ];
 
   // === 1) Fetch a random response from JSON and split into ~4 lines. ===
