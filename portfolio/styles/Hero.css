@@ -17,6 +17,7 @@
 .text-container {
     color: white;
     font-size: 24px; /* Set initial font size for all views */
+    line-height: 1.5; /* Improve readability */
 }
 
 @media (min-width: 768px) {
@@ -26,3 +27,50 @@
     }
 }
 
+/* Strikethrough Animation */
+.strike-through {
+    position: relative;
+    display: inline-block;
+    color: white; /* Keep text color white */
+}
+
+/* Create the thick black strikethrough line */
+.strike-through::before {
+    content: '';
+    position: absolute;
+    top: 45%; /* Position the line vertically centered */
+    left: 0;
+    width: 100%;
+    height: 16px; /* Thickness of the strikethrough */
+    background: black;
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: strikethrough-line 0.5s forwards;
+    animation-delay: var(--delay); /* Use CSS variable for staggered delay */
+}
+
+/* Keyframes for strikethrough animation */
+@keyframes strikethrough-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Turn unstruck words from white to red */
+.unstruck-to-red {
+    /* Animate color over 1 second, for example */
+    animation: color-to-red 1s forwards;
+  }
+  
+  @keyframes color-to-red {
+    from {
+      color: white;
+    }
+    to {
+      color: red;
+    }
+  }
+  
