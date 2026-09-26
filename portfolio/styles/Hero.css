@@ -77,6 +77,52 @@
 
 .dossier-fields {
     display: inline;
+    min-width: 0;
+    /* long single-word values (emails, URLs) wrap instead of overflowing */
+    overflow-wrap: anywhere;
+}
+
+/* Key/value sections: size the key column to the section's longest label so
+   every value lines up. Rows join the section grid via subgrid, so each row
+   keeps its own box for the fade-in animation. */
+.dossier-header,
+.dossier-entries {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 0.5em;
+}
+
+.dossier-header > .dossier-label,
+.dossier-entries > .dossier-label {
+    grid-column: 1 / -1;
+}
+
+.dossier-header .dossier-row,
+.dossier-entries .dossier-row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: baseline;
+}
+
+/* Phones: too narrow for a key column, so labels sit above their values */
+@media (max-width: 767px) {
+    .dossier-header,
+    .dossier-entries {
+        grid-template-columns: 1fr;
+    }
+
+    .dossier-header .dossier-row,
+    .dossier-entries .dossier-row {
+        margin-bottom: 0.6em;
+    }
+
+    .dossier-key {
+        min-width: 0;
+        font-size: 0.6em;
+        letter-spacing: 0.15em;
+    }
+
 }
 
 /* ── Section type modifiers ── */
@@ -86,9 +132,10 @@
     font-size: 1em;
 }
 
-/* BACKGROUND paragraph — rows behave as full lines, no key column */
+/* BACKGROUND paragraph — rows flow inline as one paragraph that fills the
+   available width (no fixed line breaks), no key column */
 .dossier-paragraph .dossier-row {
-    display: block;
+    display: inline;
     margin-bottom: 0;
 }
 
@@ -102,28 +149,35 @@
     color: var(--text);
 }
 
-.hero-word-censored {
-    display: inline;
+/* A word (or an email/URL piece) never breaks across lines, so its bar is
+   always one unbroken box */
+.hero-piece {
+    white-space: nowrap;
     position: relative;
 }
 
-.hero-word-censored::after {
+.hero-word-censored {
+    display: inline;
+}
+
+/* Bar over each piece: middle 50% of the em height, overhanging 2px a side */
+.hero-word-censored:not(.is-revealed) .hero-piece::after {
     content: '';
     position: absolute;
-    /* Bar overhangs the word by 2px each side (kept off the span itself so
-       selection highlights stay continuous) */
     left: -2px;
     right: -2px;
-    /* Bar sits in the middle 50% of the em height */
     top: 25%;
     bottom: 25%;
     background: var(--bar);
     pointer-events: none;
 }
 
-/* Toggled off by the visitor — keep the box, drop the bar */
-.hero-word-censored.is-revealed::after {
-    display: none;
+/* The same band behind the word, so the space after it is barred too and the
+   bar reads as one continuous strip across words (cloned per line) */
+.hero-word-censored:not(.is-revealed) {
+    background: linear-gradient(var(--bar), var(--bar)) 0 50% / 100% 50% no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 
 /* Rows with redactions become click-to-toggle (whole page) after the first sweep */
@@ -134,6 +188,21 @@
 .dossier-row-toggle:focus-visible {
     outline: 1px dashed var(--text);
     outline-offset: 2px;
+}
+
+/* Contact links: no underline, color set inline (turns red with keywords) */
+.hero-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.hero-link:hover {
+    opacity: 0.75;
+}
+
+.hero-link:focus-visible {
+    outline: 1px dashed currentColor;
+    outline-offset: 3px;
 }
 
 .hero-word-exempt {
