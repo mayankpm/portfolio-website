@@ -1,0 +1,112 @@
+/* LegacyHero.css — the original landing page (restored from main) */
+
+/* Plain black page, independent of the dossier theme variables */
+.legacy-page {
+    min-height: 100vh;
+    /* Column so the footer can sit at the bottom of short pages */
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    color: #fff;
+}
+
+.legacy-page ::selection {
+    background-color: white;
+    color: #000;
+}
+
+/* Top-right cluster: logo, then theme toggle */
+.legacy-controls {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Top-left name, vertically centred on the same row as the controls */
+.legacy-name {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 10;
+    height: 56px; /* matches the logo so both rows share a centre line */
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    letter-spacing: 0.01em;
+}
+
+/* Bottom row — same 2rem edges as the top bar */
+.legacy-footer {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    padding: 2rem;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.legacy-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+}
+
+.legacy-footer a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.legacy-footer a:hover,
+.legacy-footer a:focus-visible {
+    border-bottom-color: currentColor;
+    outline: none;
+}
+
+/* Light version — same page, inverted */
+.theme-light .legacy-page {
+    background: #fff;
+    color: #000;
+}
+
+.theme-light .legacy-page ::selection {
+    background-color: #000;
+    color: #fff;
+}
+
+.legacy-text-container {
+    color: white;
+    font-size: 24px;
+}
+
+/* Phones/tablets: the column is too narrow for 4 lines, so drop the fixed
+   breaks and let the paragraph wrap naturally */
+@media (max-width: 1023px) {
+    .legacy-text-container br {
+        display: none;
+    }
+}
+
+.theme-light .legacy-text-container {
+    color: #000;
+}
+
+/* Desktop: scale with the text column so the 4 lines never wrap
+   (longest line is ~26.5em wide), capped at the original 50px */
+.legacy-page .about-text-container {
+    container-type: inline-size;
+}
+
+@media (min-width: 768px) {
+    .legacy-text-container {
+        font-size: clamp(24px, 3.65cqi, 50px);
+    }
+}

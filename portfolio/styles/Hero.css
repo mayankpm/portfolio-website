@@ -7,22 +7,136 @@
     .about-text-container {
         font-size: 24px;
         padding: 10rem;
-
     }
 }
 
 /* Hero.css */
 
-
-.text-container {
-    color: white;
-    font-size: 24px; /* Set initial font size for all views */
+/* ── Dossier document ── */
+.dossier {
+    color: var(--text);
+    font-size: 24px;
 }
 
 @media (min-width: 768px) {
-    /* Apply larger font size for larger screens */
-    .text-container {
+    .dossier {
         font-size: 50px;
     }
+}
+
+/* Text-only "classified" stamp — reuses the red var, no UI panel */
+.dossier-classified {
+    font-size: 0.4em;
+    letter-spacing: 0.4em;
+    font-weight: bold;
+    color: var(--key-red);
+    margin-bottom: 1.2em;
+    opacity: 0.85;
+}
+
+.dossier-section {
+    margin-bottom: 1.4em;
+    padding-top: 0.6em;
+    border-top: 1px solid var(--text);
+    /* faint form-divider, adapts to theme */
+    border-color: color-mix(in srgb, var(--text) 22%, transparent);
+}
+
+.dossier-section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+/* Section heading — pure-text classified header */
+.dossier-label {
+    font-size: 0.38em;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: bold;
+    opacity: 0.7;
+    color: var(--text);
+    margin: 0 0 0.5em 0;
+}
+
+.dossier-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    margin-bottom: 0.25em;
+}
+
+/* The LABEL: cell, fixed column for alignment in entry/header sections */
+.dossier-key {
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    flex: 0 0 auto;
+    min-width: 4.5em;
+    opacity: 0.85;
+}
+
+.dossier-fields {
+    display: inline;
+}
+
+/* ── Section type modifiers ── */
+
+/* SUBJECT header — larger name line */
+.dossier-header .dossier-row {
+    font-size: 1em;
+}
+
+/* BACKGROUND paragraph — rows behave as full lines, no key column */
+.dossier-paragraph .dossier-row {
+    display: block;
+    margin-bottom: 0;
+}
+
+/* CAPABILITIES list — let the run wrap inline */
+.dossier-list .dossier-row {
+    display: block;
+}
+
+.hero-word {
+    display: inline;
+    color: var(--text);
+}
+
+.hero-word-censored {
+    display: inline;
+    position: relative;
+}
+
+.hero-word-censored::after {
+    content: '';
+    position: absolute;
+    /* Bar overhangs the word by 2px each side (kept off the span itself so
+       selection highlights stay continuous) */
+    left: -2px;
+    right: -2px;
+    /* Bar sits in the middle 50% of the em height */
+    top: 25%;
+    bottom: 25%;
+    background: var(--bar);
+    pointer-events: none;
+}
+
+/* Toggled off by the visitor — keep the box, drop the bar */
+.hero-word-censored.is-revealed::after {
+    display: none;
+}
+
+/* Rows with redactions become click-to-toggle (whole page) after the first sweep */
+.dossier-row-toggle {
+    cursor: pointer;
+}
+
+.dossier-row-toggle:focus-visible {
+    outline: 1px dashed var(--text);
+    outline-offset: 2px;
+}
+
+.hero-word-exempt {
+    display: inline;
 }
 

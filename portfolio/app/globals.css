@@ -2,28 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* Default (dark) theme — dark olive-charcoal, BO1 mission-briefing vibe */
+:root,
+.theme-dark {
+  --bg: #12140f;        /* full-bleed page background (no paper sheet) */
+  --text: #ffffff;
+  --bar: #000000;       /* censor bars stay pure black */
+  --key-red: #e10600;   /* deep red keyword on dark */
+  --select-bg: #ffffff;
+  --select-text: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+/* Light theme — BO1 off-white classified document on a muted desk */
+.theme-light {
+  --bg: #c4c2c0;        /* muted grey surround / desk surface */
+  --paper: #eceae6;     /* cool off-white paper sheet */
+  --text: #1a1a2a;      /* navy-black ink */
+  --bar: #000000;       /* censor bars stay pure black */
+  --key-red: #8b0000;   /* deep red keyword on paper */
+  --select-bg: #1a1a2a;
+  --select-text: #eceae6;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--text);
+  background: var(--bg);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ── Dark mode is fully independent. ──
+   The wrapper elements are inert pass-throughs: no surface, no sheet, no
+   centering, no width limit, no margins. Content sits directly on the
+   full-bleed --bg exactly as the original design. */
+.page-surface,
+.paper-sheet {
+  display: contents;
+}
+
+/* ── Light mode: an actual sheet of paper inset equally on all 4 sides. ──
+   --pad is the SAME value for horizontal and vertical, so the desk shows
+   as an even border around the paper on every edge. */
+.theme-light {
+  --pad: 2rem;
+}
+
+.theme-light .page-surface {
+  display: block;
+  min-height: 100vh;
+  /* equal desk gap on all four sides */
+  padding: var(--pad);
+  box-sizing: border-box;
+}
+
+/* "Corrupted footage" photo-negative glitch — applied briefly at random
+   intervals in light mode only. invert + hue-rotate(180) gives a true
+   photographic negative rather than a raw channel flip. */
+.theme-light .page-surface.glitch-invert {
+  filter: invert(1) hue-rotate(180deg) contrast(1.1);
+}
+
+.theme-light .paper-sheet {
+  display: block;
+  /* fills the surface minus the equal inset → equal padding all around */
+  min-height: calc(100vh - (2 * var(--pad)));
+  background-color: var(--paper);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  transition: background-color 0.4s ease;
+  /* subtle paper grain + faint scratches/marks */
+  background-image:
+    /* faint diagonal scratch */
+    linear-gradient(115deg, transparent 0%, rgba(0,0,0,0.015) 40%, transparent 41%),
+    linear-gradient(80deg, transparent 0%, rgba(0,0,0,0.02) 70%, transparent 71%),
+    /* cool tint wash toward edges */
+    radial-gradient(120% 100% at 50% 0%, rgba(120,130,160,0.05), transparent 60%),
+    /* very fine grain */
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px);
+}
+
+@media (min-width: 768px) {
+  .theme-light {
+    --pad: 3rem;
+  }
 }
 
 @layer utilities {
@@ -33,6 +93,6 @@ body {
 }
 
 ::selection{
-  background-color: white;
-  color: #000;
+  background-color: var(--select-bg);
+  color: var(--select-text);
 }
