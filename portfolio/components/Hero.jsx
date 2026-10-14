@@ -20,7 +20,7 @@ const SECTIONS = [
     rows: [
       { key: 'NAME', segments: [{ kind: 'value', text: 'MAYANK' }] },
       { key: 'ROLE', segments: [{ kind: 'keyword', text: 'Software Engineer' }] },
-      { key: 'STATUS', segments: [{ kind: 'redact', text: 'MS Computer Science, UMass Amherst' }] },
+      { key: 'STATUS', segments: [{ kind: 'keyword', text: 'MS Computer Science, UMass Amherst' }] },
     ],
   },
   {
